@@ -7,6 +7,8 @@ import {
   ResponseSuccessJson,
   toExpressHandler,
 } from "./utils/express.utils";
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -32,5 +34,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(3000, () => console.log("Server is running"));
+app.listen(PORT, () => console.log("Server is running"));
 export default app;
