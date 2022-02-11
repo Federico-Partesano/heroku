@@ -1,0 +1,52 @@
+{
+  "name": "ipratico-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "start": "tsc && node ./build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-layer": "export HUSKY=0 && copyfiles -f ./package.json ./layer/nodejs/ &&  cd ./layer/nodejs && npm i --production",
+    "deploy:layer:production": "export DEPLOY=layer AWS_PROFILE=ripiene && npm run install-layer && NODE_ENV=production serverless deploy --aws-profile ripiene --env production --stage prod --force",
+    "deploy:layer:staging": "export DEPLOY=layer AWS_PROFILE=ripiene && npm run install-layer && NODE_ENV=stage serverless deploy --aws-profile ripiene --env stage --stage dev --force",
+    "deploy:production": "export DEPLOY=functions AWS_PROFILE=ripiene && NODE_ENV=production serverless deploy --aws-profile ripiene --env production --stage prod --force",
+    "deploy:staging": "export DEPLOY=functions AWS_PROFILE=ripiene &&  NODE_ENV=stage serverless deploy --aws-profile ripiene --env stage --stage dev --force"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1039.0",
+    "aws-serverless-express": "^3.4.0",
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dayjs": "^1.10.7",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "@types/aws-serverless-express": "^3.3.5",
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.6",
+    "@types/serverless": "^1.78.39",
+    "copy-webpack-plugin": "^10.0.0",
+    "copyfiles": "^2.4.1",
+    "fork-ts-checker-webpack-plugin": "^6.5.0",
+    "jsdoc": "^3.6.7",
+    "nodemon": "^2.0.15",
+    "serverless-dotenv-plugin": "^3.10.0",
+    "serverless-offline": "^8.3.1",
+    "serverless-webpack": "^5.6.0",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
+    "webpack": "^5.64.4",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
