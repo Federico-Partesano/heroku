@@ -35,4 +35,4 @@ app.get('/',(res, req) => req.send('ciao'))
 // app.use(errorHandler);
 
 app.listen(PORT, () => console.log("Server is running"));
-// export default app;
+export default app;
