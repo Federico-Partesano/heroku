@@ -1,5 +1,4 @@
-import { Types } from "./../module/types";
-import { User } from "../typings/user";
+import { Types } from "../models/types";
 
 
 export const typeCryptographyJwt = "shhhhh";

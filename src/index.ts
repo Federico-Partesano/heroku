@@ -1,5 +1,6 @@
 import express from "express";
-import sales from "./routes/sales";
+import users from "./routes/users";
+import matches from "./routes/matches";
 import cors from "cors";
 import { Request } from "express";
 import {
@@ -7,11 +8,19 @@ import {
   ResponseSuccessJson,
   toExpressHandler,
 } from "./utils/express.utils";
-const PORT = process.env.PORT || 5000;
+import * as http from "http";
+import * as socketio from "socket.io";
+
+
+const PORT =  3001;
 
 const app = express();
+const server = http.createServer(app);
+const io = new socketio.Server(server).listen(server);
 
-
+io.on("connection", (...params) => {
+  console.log(params);
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -19,7 +28,8 @@ app.use(express.json());
 app.use(cors());
 app.options("*", cors() as any);
 
-app.use("/sales", sales);
+app.use("/users", users);
+app.use("/matches", matches);
 
 
 class TestController {
@@ -29,6 +39,8 @@ class TestController {
   };
 }
 
+
+
 app.get(
   "/test",
   // ----
@@ -36,5 +48,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log("Server is running"));
+app.listen(3001, () => console.log("Server is running"));
 export default app;

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../typings/user";
 import { typeCryptographyJwt } from "../configurations/config";
 export const auth = (
   { headers: { token } }: Request,
