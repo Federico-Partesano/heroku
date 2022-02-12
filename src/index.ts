@@ -19,7 +19,7 @@ const app = express();
 // app.use(cors());
 // app.options("*", cors() as any);
 
-app.get('/',(res, req) => req.send('ciao'))
+app.get('/',(res, req) => req.json({message : 'vaffanculo'}))
 
 
 // class TestController {
