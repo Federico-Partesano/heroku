@@ -13,28 +13,28 @@ const app = express();
 
 
 
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// app.use(cors());
-// app.options("*", cors() as any);
+app.use(cors());
+app.options("*", cors() as any);
 
-app.get('/',(res, req) => req.json({message : 'vaffanculo'}))
+app.use("/sales", sales);
 
 
-// class TestController {
-//   static testEndpoint = async (req: Request) => {
-//     if (req.query.fail) throw new Error("simulated error");
-//     return ResponseSuccessJson({ message: "ok" });
-//   };
-// }
+class TestController {
+  static testEndpoint = async (req: Request) => {
+    if (req.query.fail) throw new Error("simulated error");
+    return ResponseSuccessJson({ message: "ok" });
+  };
+}
 
-// app.get(
-//   "/test",
-//   // ----
-//   toExpressHandler(TestController.testEndpoint, TestController)
-// );
-// app.use(errorHandler);
+app.get(
+  "/test",
+  // ----
+  toExpressHandler(TestController.testEndpoint, TestController)
+);
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log("Server is running"));
 export default app;
