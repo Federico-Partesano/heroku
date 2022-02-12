@@ -5,13 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install-layer": "export HUSKY=0 && copyfiles -f ./package.json ./layer/nodejs/ &&  cd ./layer/nodejs && npm i --production",
-    "deploy:layer:production": "export DEPLOY=layer AWS_PROFILE=ripiene && npm run install-layer && NODE_ENV=production serverless deploy --aws-profile ripiene --env production --stage prod --force",
-    "deploy:layer:staging": "export DEPLOY=layer AWS_PROFILE=ripiene && npm run install-layer && NODE_ENV=stage serverless deploy --aws-profile ripiene --env stage --stage dev --force",
-    "deploy:production": "export DEPLOY=functions AWS_PROFILE=ripiene && NODE_ENV=production serverless deploy --aws-profile ripiene --env production --stage prod --force",
-    "deploy:staging": "export DEPLOY=functions AWS_PROFILE=ripiene &&  NODE_ENV=stage serverless deploy --aws-profile ripiene --env stage --stage dev --force"
+    "start": "node build/index.js",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+
   },
   "keywords": [],
   "author": "",
