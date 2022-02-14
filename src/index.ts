@@ -25,7 +25,7 @@ const server = http.createServer(app);
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"]
 }}).listen(3002)
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
 
 
 
