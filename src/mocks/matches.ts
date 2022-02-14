@@ -1,5 +1,5 @@
 import { Match } from "../models/match";
-export  const  initialField = Array.from({length: 8}, (_, column) => {
+export  const  initialField = () => Array.from({length: 8}, (_, column) => {
    return Array.from({length: 8}, (_, row )=>{
     if(column> 2 && column< 5){ return 0 } 
     if(column< 3){
@@ -11,6 +11,8 @@ export  const  initialField = Array.from({length: 8}, (_, column) => {
 });
 
 export const matchesMock: Match[] = [
-    {id: "1234", player1: "Federico", player2: null, currentPlayer: "Federico", field: initialField, status: "pre_start" }
+    {id: "47573d9a-4cfc-49b7-990e-1347c8715353", player1: "Federico", player2: null, currentPlayer: null, field: initialField(), status: "pre_start", date: new Date(), messages: [{nickname: 'Federico', content: 'Ciao come va?'},{nickname: 'Federico', content: 'Ciao come va?'}] },
+    {id: "9401125d-5349-4818-b4c9-1f7a12d2907b", player1: "f", player2: null, currentPlayer: null, field: initialField(), status: "pre_start", date: new Date(), messages: [{nickname: 'Federico', content: 'Ciao come va?'},{nickname: 'Federico', content: 'Ciao come va?'}] }
+
 ]
 

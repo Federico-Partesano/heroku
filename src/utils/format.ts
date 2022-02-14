@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 
 /**
  * Return formatted number rounding up to 2 decimal places
@@ -11,14 +10,14 @@ export const formatNumber = (num: number) => Number(num.toFixed(2));
  * @constructor
  * @param {string} date - current date.
  */
-export const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
-/**
- * Return number week of a month.
- * @constructor
- * @param {string} date - current date.
- */
-export const weekOfMonth = (date: string) => {
-  const num = dayjs(date).startOf("month").day();
-  const c = num === 0 ? 7 : num;
-  return Math.ceil((Number(dayjs(date).format("DD")) + c) / 7);
-};
+// export const formatDate = () => dayjs().format("YYYY-MM-DD HH ");
+// /**
+//  * Return number week of a month.
+//  * @constructor
+//  * @param {string} date - current date.
+//  */
+// export const weekOfMonth = (date: string) => {
+//   const num = dayjs(date).startOf("month").day();
+//   const c = num === 0 ? 7 : num;
+//   return Math.ceil((Number(dayjs(date).format("DD")) + c) / 7);
+// };

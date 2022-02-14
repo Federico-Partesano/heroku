@@ -10,18 +10,32 @@ import {
 } from "./utils/express.utils";
 import * as http from "http";
 import * as socketio from "socket.io";
+import path from "path";
+import { matchesMock } from "./mocks/matches";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 
-const PORT =  3001;
+// let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
+const PORT =  8000;
+export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express();
 const server = http.createServer(app);
-const io = new socketio.Server(server).listen(server);
+ const io = new socketio.Server(server, {cors: {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"]
+}}).listen(3002)
+app.use(express.static(path.join(__dirname, "public")));
 
-io.on("connection", (...params) => {
-  console.log(params);
-});
 
+
+
+  io.on('connection',(socket) =>{
+    socketConnection = socket;
+  })
+
+
+ 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -30,6 +44,7 @@ app.options("*", cors() as any);
 
 app.use("/users", users);
 app.use("/matches", matches);
+
 
 
 class TestController {
@@ -48,5 +63,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(3001, () => console.log("Server is running"));
+app.listen(3001 ,() => console.log("Server is running"));
 export default app;
