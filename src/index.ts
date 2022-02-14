@@ -24,7 +24,7 @@ const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"]
-}}).listen(3002)
+}}).listen(5002)
 // app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -63,5 +63,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(3001 ,() => console.log("Server is running"));
+app.listen(5001 ,() => console.log("Server is running"));
 export default app;
