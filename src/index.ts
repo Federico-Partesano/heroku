@@ -17,14 +17,17 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
-const PORT =  8000;
+const port = process.env.PORT || 5000
+
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express();
 const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"]
-}}).listen(5002)
+}}).listen(8000)
+
+
 // app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -63,5 +66,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(5001 ,() => console.log("Server is running"));
+app.listen(port ,() => console.log("Server is running"));
 export default app;
