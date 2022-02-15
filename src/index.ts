@@ -17,7 +17,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
-const port = process.env.PORT || 5000
+const port = 3001
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express();
@@ -25,7 +25,7 @@ const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"]
-}}).listen(8000)
+}}).listen(3002)
 
 
 // app.use(express.static(path.join(__dirname, "public")));

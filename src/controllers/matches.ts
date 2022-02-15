@@ -28,8 +28,11 @@ export const matchController = {
   addMatch: (
     { body: { id } }: Request<{}, {}, { id: string }>,res: Response<Match | Error>) => {
     const [status, match] = add(id);
+    try{
     status < 300 && socketConnection!.broadcast.emit('add-new-match', match );
-
+    } catch(e:any) {
+      res.status(400).json(e);
+    }
     res.status(status).json(match);
   },
 
@@ -59,6 +62,7 @@ export const matchController = {
       if(nickname && typeof nickname === "string"){
         const [status, match] = setMove(id, nickname ,body)
         status < 300 && socketConnection!.broadcast.emit(`match-refresh-${id}`, match );
+        status < 300 && socketConnection!.emit(`match-refresh-${id}`, match );
 
         return res.status(status).json(match);
       }
