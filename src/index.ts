@@ -17,25 +17,26 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5500;
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express();
 const server = http.createServer(app);
- const io = new socketio.Server(server, {cors: {
+
+
+const io = new socketio.Server(server, {cors: {
   origin: "*",
-},
-}).listen(5000)
+  methods: ["GET", "POST", "PUT", "DELETE"]
+ }})
+ 
+   io.on('connection',(socket) =>{
+     socketConnection = socket;
+   })
+// app.use(express.static(path.join(__dirname, "public")));
 
 
 
 
-
-
-
-  io.on('connection',(socket) =>{
-    socketConnection = socket;
-  })
 
 
  
@@ -66,5 +67,9 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(port ,() => console.log("Server is running"));
-export default app;
+server.listen(port ,() => console.log("Server is running"));
+
+
+
+   export default app;
+
