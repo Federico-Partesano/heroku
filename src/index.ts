@@ -21,14 +21,17 @@ const port = process.env.PORT || 3001
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express();
+app.set('views', __dirname + '/views');
 const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"]
-}}).listen(5001)
+  methods: ["GET", "POST", "PUT", "DELETE"],
+},
+transports:["websocket"],
+}).listen(server);
 
 
-// app.use(express.static(path.join(__dirname, "public")));
+
 
 
 
