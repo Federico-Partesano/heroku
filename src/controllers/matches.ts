@@ -50,6 +50,9 @@ export const matchController = {
 
       if(nickname && typeof nickname === "string"){
         const [status, match] = join(id, nickname);
+        status < 300 && socketConnection!.emit(`match-join`, match );
+        status < 300 && socketConnection!.broadcast.emit(`match-join`, match );
+
         res.status(status).json(match);
       } else {
         res.status(400).json({error: 'Bad nickname'})
@@ -63,6 +66,9 @@ export const matchController = {
         const [status, match] = setMove(id, nickname ,body)
         status < 300 && socketConnection!.broadcast.emit(`match-refresh-${id}`, match );
         status < 300 && socketConnection!.emit(`match-refresh-${id}`, match );
+
+        status < 300 && socketConnection!.broadcast.emit(`match-setmove`, match );
+        status < 300 && socketConnection!.emit(`match-setmove`, match );
 
         return res.status(status).json(match);
       }
