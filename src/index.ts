@@ -25,8 +25,9 @@ const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
 },
-transports: ['websocket']
-}).listen(process.env.PORT as any);
+transports: ['websocket'],
+path: "/",
+}).listen(5000);
 
 
 
@@ -67,5 +68,5 @@ app.get(
 );
 app.use(errorHandler);
 
-// app.listen(port ,() => console.log("Server is running"));
+app.listen(port ,() => console.log("Server is running"));
 export default app;
