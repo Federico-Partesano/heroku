@@ -25,7 +25,7 @@ const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"]
-}}).listen(3002)
+}})
 
 
 // app.use(express.static(path.join(__dirname, "public")));
