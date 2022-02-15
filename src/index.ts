@@ -26,7 +26,7 @@ const server = http.createServer(app);
   origin: "*",
 },
 transports: ['websocket']
-}).listen(5000);
+}).listen(server);
 
 
 
