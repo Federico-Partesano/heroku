@@ -22,7 +22,10 @@ const INDEX = '/index.html';
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express()
-const server = http.createServer(app);
+
+const app2 = app.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+
+const server = http.createServer(app2);
 //  const io = new socketio.Server(server, {cors: {
 //   origin: "*",
 //   methods: ["GET", "POST", "PUT", "DELETE"]
