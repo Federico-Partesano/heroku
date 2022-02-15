@@ -31,7 +31,7 @@ export const matchController = {
     try{
     status < 300 && socketConnection!.broadcast.emit('add-new-match', match );
     } catch(e:any) {
-      res.status(400).json(e);
+      return res.status(400).json(e);
     }
     res.status(status).json(match);
   },
