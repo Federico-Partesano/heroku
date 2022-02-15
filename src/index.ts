@@ -25,6 +25,7 @@ const server = http.createServer(app);
  const io = new socketio.Server(server, {cors: {
   origin: "*",
 },
+transports: ['websocket']
 }).listen(server);
 
 
@@ -35,6 +36,7 @@ const server = http.createServer(app);
 
   io.on('connection',(socket) =>{
     socketConnection = socket;
+    console.log('connection')
   })
 
 
