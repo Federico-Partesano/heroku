@@ -36,7 +36,7 @@ const io = new socketio.Server(server, {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
-}).listen(server);
+}).listen(3000);
 
 
 
