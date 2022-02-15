@@ -26,7 +26,7 @@ const server = http.createServer(app);
   origin: "*",
 },
 transports: ['websocket']
-}).listen(server);
+}).listen(5000);
 
 
 
@@ -36,7 +36,6 @@ transports: ['websocket']
 
   io.on('connection',(socket) =>{
     socketConnection = socket;
-    console.log('connection')
   })
 
 
