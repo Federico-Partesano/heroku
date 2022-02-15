@@ -13,35 +13,22 @@ import * as socketio from "socket.io";
 import path from "path";
 import { matchesMock } from "./mocks/matches";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import { Server } from "ws";
+
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
-const PORT = process.env.PORT || 3001;
-const INDEX = '/index.html';
+const port = 3001
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
-const app = express()
-
-const app2 = app.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-
-const server = http.createServer(app2);
-//  const io = new socketio.Server(server, {cors: {
-//   origin: "*",
-//   methods: ["GET", "POST", "PUT", "DELETE"]
-// }}).listen(3000)
-
-const io = new socketio.Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"]
-  }
-}).listen(3000);
+const app = express();
+const server = http.createServer(app);
+ const io = new socketio.Server(server, {cors: {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"]
+}}).listen(3002)
 
 
-
-
-
+// app.use(express.static(path.join(__dirname, "public")));
 
 
 
@@ -79,5 +66,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.use((req, res) => res.sendFile(INDEX, { root: __dirname })).listen(PORT ,() => console.log("Server is running"));
+app.listen(port ,() => console.log("Server is running"));
 export default app;
