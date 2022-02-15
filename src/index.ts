@@ -26,7 +26,7 @@ const server = http.createServer(app);
   origin: "*",
 },
 transports: ['websocket']
-}).listen(server);
+}).listen(process.env.PORT as any);
 
 
 
@@ -67,5 +67,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(port ,() => console.log("Server is running"));
+// app.listen(port ,() => console.log("Server is running"));
 export default app;
