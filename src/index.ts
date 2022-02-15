@@ -13,28 +13,37 @@ import * as socketio from "socket.io";
 import path from "path";
 import { matchesMock } from "./mocks/matches";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-
+import { Server } from "ws";
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
 const PORT = process.env.PORT || 3001;
+const INDEX = '/index.html';
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
-const app = express();
+const app = express().use((req, res) => res.sendFile(INDEX, { root: __dirname }))
 const server = http.createServer(app);
- const io = new socketio.Server(server, {cors: {
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"]
-}}).listen(3000)
+//  const io = new socketio.Server(server, {cors: {
+//   origin: "*",
+//   methods: ["GET", "POST", "PUT", "DELETE"]
+// }}).listen(3000)
+
+const io = new socketio.Server(server, {
+  cors: {
+    origin: "*"
+  }
+});
 
 
-// app.use(express.static(path.join(__dirname, "public")));
 
 
 
 
-  io.on('connection',(socket) =>{
-    socketConnection = socket;
+
+
+
+  io.on('connection',(ws:any) =>{
+    socketConnection = ws;
   })
 
 
