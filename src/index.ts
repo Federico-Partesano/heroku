@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3001;
 const INDEX = '/index.html';
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
-const app = express().use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+const app = express()
 const server = http.createServer(app);
 //  const io = new socketio.Server(server, {cors: {
 //   origin: "*",
@@ -75,5 +75,5 @@ app.get(
 );
 app.use(errorHandler);
 
-app.listen(PORT ,() => console.log("Server is running"));
+app.use((req, res) => res.sendFile(INDEX, { root: __dirname })).listen(PORT ,() => console.log("Server is running"));
 export default app;
