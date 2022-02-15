@@ -33,9 +33,10 @@ const server = http.createServer(app2);
 
 const io = new socketio.Server(server, {
   cors: {
-    origin: "*"
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"]
   }
-});
+}).listen(server);
 
 
 
@@ -45,8 +46,8 @@ const io = new socketio.Server(server, {
 
 
 
-  io.on('connection',(ws:any) =>{
-    socketConnection = ws;
+  io.on('connection',(socket) =>{
+    socketConnection = socket;
   })
 
 
