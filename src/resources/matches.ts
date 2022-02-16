@@ -45,7 +45,7 @@ matchSelector.join = (id: string, nickname: string) => {
     const matchIndex = matches.findIndex(({id: idMatch}) =>  id === idMatch);
     if(matchIndex < 0) return [400, {error: 'match not fiund'}]
      if(nickname === matches[matchIndex].player1){
-      // if(matches[matchIndex].player2 === null) return [400,  {error: 'Await another player!'}]
+      if(matches[matchIndex].player2 === null) return [400,  {error: 'Await another player!'}]
       return [200, matches[matchIndex]]
      }
      if(nickname === matches[matchIndex].player2) return [200, matches[matchIndex]]
@@ -67,7 +67,7 @@ matchSelector.setMove = (id:string,nickname: string,body: SetMove) => {
     if(numberStart === 0) return [400, {error: 'Invalid request!'}]
     if(numberFinal !== 0) return [400, {error: 'Invalid request!'}]
 
-    // if(matches[matchIndex].currentPlayer !== nickname) return [400, {error: 'Not is your turn!'}]
+    if(matches[matchIndex].currentPlayer !== nickname) return [400, {error: 'Not is your turn!'}]
     matches[matchIndex].field[startX][startY] = 0;
     setMoves(body, matches,matchIndex,numberStart);
     matches[matchIndex].field[finalX][finalY] = numberStart;
