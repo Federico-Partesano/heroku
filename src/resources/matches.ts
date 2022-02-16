@@ -13,7 +13,7 @@ interface MatchInterface {
   addMessage(id: string, message: Message): readonly [number, Message | { error: string }];
   remove(id: string): readonly [number, Match | Error];
   join(id: string, nickname: string): readonly [number, Match | Error];
-  setMove(id:string,nickname: string,{ startX, startY, finalX, finalY }: SetMove): readonly [number, Match | Error];
+  setMove(id:string,nickname: string,{ startX, startY, finalX, finalY }: SetMove): readonly [number, Match | Error, SetMove?];
 
   // [key: string]: any; //indexer
 }
@@ -45,7 +45,7 @@ matchSelector.join = (id: string, nickname: string) => {
     const matchIndex = matches.findIndex(({id: idMatch}) =>  id === idMatch);
     if(matchIndex < 0) return [400, {error: 'match not fiund'}]
      if(nickname === matches[matchIndex].player1){
-      if(matches[matchIndex].player2 === null) return [400,  {error: 'Await another player!'}]
+      // if(matches[matchIndex].player2 === null) return [400,  {error: 'Await another player!'}]
       return [200, matches[matchIndex]]
      }
      if(nickname === matches[matchIndex].player2) return [200, matches[matchIndex]]
@@ -74,7 +74,7 @@ matchSelector.setMove = (id:string,nickname: string,body: SetMove) => {
     matches[matchIndex].currentPlayer = matches[matchIndex].currentPlayer === matches[matchIndex].player1 
     ? matches[matchIndex].player2 :  matches[matchIndex].player1
 
-    return [200, matches[matchIndex]];
+    return [200, matches[matchIndex], body];
   };
 
 

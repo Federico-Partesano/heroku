@@ -63,9 +63,9 @@ export const matchController = {
   Setmove: (
     {params:{id} ,body, headers: {nickname} }: Request<{id: string},{},SetMove>,res: Response<Match | Error>) => { 
       if(nickname && typeof nickname === "string"){
-        const [status, match] = setMove(id, nickname ,body)
-        status < 300 && socketConnection!.broadcast.emit(`match-refresh-${id}`, match );
-        status < 300 && socketConnection!.emit(`match-refresh-${id}`, match );
+        const [status, match, moves] = setMove(id, nickname ,body)
+        status < 300 && socketConnection!.broadcast.emit(`match-refresh-${id}`, {match, moves} );
+        status < 300 && socketConnection!.emit(`match-refresh-${id}`, {match, moves} );
 
         status < 300 && socketConnection!.broadcast.emit(`match-setmove`, match );
         status < 300 && socketConnection!.emit(`match-setmove`, match );
