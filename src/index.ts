@@ -17,7 +17,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 3001;
 
 export let socketConnection: socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null = null;
 const app = express();
