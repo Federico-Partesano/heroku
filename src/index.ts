@@ -1,6 +1,8 @@
 import express from "express";
 import users from "./routes/users";
 import matches from "./routes/matches";
+import chats from "./routes/chats";
+
 import cors from "cors";
 import { Request } from "express";
 import {
@@ -48,6 +50,7 @@ app.options("*", cors() as any);
 
 app.use("/users", users);
 app.use("/matches", matches);
+app.use("/chats", chats);
 
 
 
