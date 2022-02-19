@@ -9,8 +9,8 @@ import { setMoves } from "../utils/matches";
 interface MatchInterface {
   matches: Match[];
   (): void;
-  add(player: string): readonly [number, Match | { error: string }];
-  addMessage(id: string, message: Message): readonly [number, Message | { error: string }];
+  add(player: string): readonly [number, Match | Error];
+  addMessage(id: string, message: Message): readonly [number, Message | Error];
   remove(id: string): readonly [number, Match | Error];
   join(id: string, nickname: string): readonly [number, Match | Error];
   setMove(id:string,nickname: string,{ startX, startY, finalX, finalY }: SetMove): readonly [number, Match | Error, SetMove?];
@@ -34,7 +34,7 @@ matchSelector.add = (player: string) => {
 //  ADD NEW MESSAGE
 matchSelector.addMessage = (id: string,message: Message) => {
   const indexMatch = matches.findIndex(({id: idMatch}) => idMatch === id );
-  if(indexMatch < 0) return [400, {error: 'match not found!'}]
+  if(indexMatch < 0) return [400, {error: 'Match not found!'}]
   matches[indexMatch].messages.push(message);
   return [200, message];
 };
@@ -43,7 +43,7 @@ matchSelector.addMessage = (id: string,message: Message) => {
 //  JOIN MATCH
 matchSelector.join = (id: string, nickname: string) => {
     const matchIndex = matches.findIndex(({id: idMatch}) =>  id === idMatch);
-    if(matchIndex < 0) return [400, {error: 'match not fiund'}]
+    if(matchIndex < 0) return [400, {error: 'Match not found!'}]
      if(nickname === matches[matchIndex].player1){
       if(matches[matchIndex].player2 === null) return [400,  {error: 'Await another player!'}]
       return [200, matches[matchIndex]]
@@ -59,7 +59,7 @@ matchSelector.join = (id: string, nickname: string) => {
 matchSelector.setMove = (id:string,nickname: string,body: SetMove) => {
     const {startX, startY, finalX, finalY} = body;
     const matchIndex = matches.findIndex(({id: idMatch}) =>  id === idMatch);
-    if(matchIndex < 0) return [400, {error: 'match not found'}]
+    if(matchIndex < 0) return [400, {error: 'Match not found!'}]
     // if(Object.keys(body).some(value => value === undefined)) return [400, {error: 'invalid body values'}]
     if(Object.values(body).some(value => value > 8 && value < 0)) return [400, {error: 'Body values must be less than 8 and greater than 0'}]
     const numberStart =  matches[matchIndex].field[startX][startY];
@@ -82,7 +82,7 @@ matchSelector.setMove = (id:string,nickname: string,body: SetMove) => {
 matchSelector.remove = (id: string) => {
   const index = matches.findIndex(({ id: idMatch }) => idMatch == id);
   if (index < 0) {
-    return [400, { error: "match not found" }] as const;
+    return [400, { error: "Match not found!" }] as const;
   }
   const matchRemoved = matches[index];
   matches = matches.splice(index, 1);

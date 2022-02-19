@@ -1,3 +1,5 @@
+import { MessageError } from "./messageError";
+
 type HeaderAxiosRequestConfig = {
   Accept: string;
   "x-api-key": string;
@@ -20,5 +22,5 @@ export type AxiosOption = {
 };
 
 export type Error = {
-  error: string
+  error: MessageError
 }

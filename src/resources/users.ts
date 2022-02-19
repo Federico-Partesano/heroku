@@ -8,7 +8,7 @@ import { typeCryptographyJwt } from "../configurations/config";
 interface UserInterface {
   users: User[];
   (): void;
-  add(user: Omit<User, "id">): readonly [number, User | { error: string }];
+  add(user: Omit<User, "id">): readonly [number, User | Error];
   remove(id: string): readonly [number, User | Error];
   generateToken(user: Omit<User, "id" | "cover">): readonly [number, {accessToken: string} | Error];
 
@@ -32,7 +32,7 @@ userSelector.add = (user: Omit<User, "id">) => {
 userSelector.remove = (id: string) => {
   const index = users.findIndex(({ id: idUser }) => idUser == id);
   if (index < 0) {
-    return [400, { error: "user not found" }];
+    return [400, { error: 'User not found!' }];
   }
   const userRemoved = users[index];
   users = users.splice(index, 1);
@@ -42,7 +42,7 @@ userSelector.remove = (id: string) => {
 //  LOGIN
 userSelector.generateToken = ({nickname, password}: Omit<User, "id">) => {
     if(!users.find(({nickname: nicknameUser, password: passwordUser}) => nicknameUser === nickname && passwordUser === password)){
-      return [400, {error: "wrong credentials"}];
+      return [400, {error: 'Wrong credentials!'}];
     }
   return [200, {accessToken:  jwt.sign({nickname, password}, typeCryptographyJwt)}];
 };

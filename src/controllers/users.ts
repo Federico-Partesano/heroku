@@ -12,7 +12,7 @@ export const usersController = {
 
 
     if(users.find(({nickname: nicknameUser}) =>nicknameUser === nickname )){
-      return res.status(400).json({error: 'Nickname already exists'});
+      return res.status(400).json({error: 'Nickname already exists!'});
     }
     const [status, user] = add({nickname, password, cover});
     res.status(status).json(user);

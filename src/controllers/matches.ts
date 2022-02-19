@@ -57,7 +57,7 @@ export const matchController = {
 
         res.status(status).json(match);
       } else {
-        res.status(400).json({error: 'Bad nickname'})
+        res.status(400).json({error: 'Invalid nickname!'})
       }
   },
 

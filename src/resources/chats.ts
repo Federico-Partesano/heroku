@@ -4,7 +4,7 @@ import { Error } from "../models/types";
 import { usersMock } from "../mocks/users";
 import jwt from "jsonwebtoken";
 import { typeCryptographyJwt } from "../configurations/config";
-import {  ChatExport, ChatImport } from "../models/chat";
+import {  ChatExport, ChatImport, MessageChat } from "../models/chat";
 import { userSelector } from "./users";
 import { Message } from "../models/match";
 import { chatsMock } from "../mocks/chats";
@@ -12,8 +12,8 @@ import { chatsMock } from "../mocks/chats";
 interface UserInterface {
   chats: ChatExport[];
   (): void;
-  add(user: Omit<ChatImport, "id" | "messages">): readonly [number, ChatExport | { error: string }];
-  addMessage(id: string, message: Message): readonly [number, Message | Error];
+  add(user: Omit<ChatImport, "id" | "messages">): readonly [number, ChatExport | Error];
+  addMessage(id: string, message: Message): readonly [number,string ,MessageChat | Error];
   generateToken(user: Omit<User, "id" | "cover">): readonly [number, {accessToken: string} | Error];
 
   // [key: string]: any; //indexer
@@ -37,7 +37,7 @@ chatSelector.add = (user: Omit<ChatImport, "id" | "messages">) => {
   )) return [409, {error: 'Chat already exists!'}]
   const user_1 = users.find(({nickname}) => user1 === nickname);
   const user_2 = users.find(({nickname}) => user2 === nickname);
-  if(!user_1 || !user_2) return [404, {error: 'Users not found!'}]
+  if(!user_1 || !user_2) return [404, {error: 'User not found!'}]
   const newChat: ChatExport = { user1: user_1, user2: user_2, id: uuidv4(), messages: [] };
   chats.push(newChat);
   return [200, newChat];
@@ -45,10 +45,19 @@ chatSelector.add = (user: Omit<ChatImport, "id" | "messages">) => {
 
 //  ADD NEW MESSAGE CHAT
 chatSelector.addMessage = (id: string,message: Message) => {
+  const {content, nickname} = message;
+  if(!content) return [404, "null", {error: "Invalid content!"}]
+  if(!nickname) return [404, "null", {error: "Invalid nickname!"}]
+
   const indexChat =  chats.findIndex(({id: idChat}) => idChat === id);
-  if(indexChat < 0) return [404, {error: 'Chat not found!'}];
-  chats[indexChat].messages.push(message);
-  return [200, message];
+  if(indexChat < 0) return [404, "null" ,{error: 'Chat not found!'}];
+  if(chats[indexChat].user1.nickname !== message.nickname &&
+    chats[indexChat].user2.nickname !== message.nickname  ){
+      return [403, "null" ,{error: 'Invalid nickname!'}]
+    }
+  const newMessage: MessageChat = {...message, watched: false};
+  chats[indexChat].messages.push(newMessage);
+  return [200,  chats[indexChat].id ,newMessage];
 };
 
 
