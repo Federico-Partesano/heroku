@@ -3,22 +3,29 @@ import { usersMock } from "./users";
 const generateMessagesMock = () => [ {
     nickname: usersMock[0].nickname,
     content: 'ciao',
-    watched: false
+    watched: false,
+    date: new Date()
 },
 {
     nickname: usersMock[1].nickname,
     content: 'ciao',
-    watched: false
+    watched: false,
+    date: new Date()
+
 },
 {
     nickname: usersMock[0].nickname,
     content: 'come va?',
-    watched: true
+    watched: true,
+    date: new Date()
+
 },
 {
     nickname: usersMock[1].nickname,
     content: 'bene grazie!',
-    watched: true
+    watched: true,
+    date: new Date()
+
 },]
 
 export const chatsMock: ChatExport[] = [

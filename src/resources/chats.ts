@@ -12,7 +12,7 @@ import { chatsMock } from "../mocks/chats";
 interface UserInterface {
   chats: ChatExport[];
   (): void;
-  add(user: Omit<ChatImport, "id" | "messages">): readonly [number, ChatExport | Error];
+  add(user: Omit<ChatImport, "id" | "messages">): readonly [number, any];
   addMessage(id: string, message: Message): readonly [number,string ,MessageChat | Error];
   generateToken(user: Omit<User, "id" | "cover">): readonly [number, {accessToken: string} | Error];
 
@@ -48,6 +48,7 @@ chatSelector.addMessage = (id: string,message: Message) => {
   const {content, nickname} = message;
   if(!content) return [404, "null", {error: "Invalid content!"}]
   if(!nickname) return [404, "null", {error: "Invalid nickname!"}]
+  if(!nickname) return [404, "null", {error: "Invalid nickname!"}]
 
   const indexChat =  chats.findIndex(({id: idChat}) => idChat === id);
   if(indexChat < 0) return [404, "null" ,{error: 'Chat not found!'}];
@@ -55,7 +56,7 @@ chatSelector.addMessage = (id: string,message: Message) => {
     chats[indexChat].user2.nickname !== message.nickname  ){
       return [403, "null" ,{error: 'Invalid nickname!'}]
     }
-  const newMessage: MessageChat = {...message, watched: false};
+  const newMessage: MessageChat = {...message, watched: false, date: new Date()};
   chats[indexChat].messages.push(newMessage);
   return [200,  chats[indexChat].id ,newMessage];
 };

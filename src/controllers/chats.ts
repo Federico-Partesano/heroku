@@ -11,8 +11,12 @@ const { chats ,add, addMessage } = chatSelector;
 
 export const chatsController = {
   addChat: (
-    { body }: Request<{}, {}, Omit<ChatImport, 'id' | 'messages'>>,res: Response<ChatExport | Error>) => {
+    { body }: Request<{}, {}, Omit<ChatImport, 'id' | 'messages'>>,res: Response<ChatExport>) => {
       const [status, chat] = add(body);
+      
+      (status < 300 && chat) &&  socketConnection!.broadcast.emit(`add-new-room-chat-${chat.user1.id}`, chat );
+      (status < 300 && chat) && socketConnection!.emit(`add-new-room-chat-${chat.user2.id}`, chat );
+
       res.status(status).json(chat) 
 },
 
@@ -32,8 +36,6 @@ getChat: (
 
 addMessage: (
   { body:{content}, params: { id }, headers:{nickname} }: Request<{id: string}, {}, {content: string}>,res: Response<Message | Error>) => {
-  console.log("🚀 ~ file: chats.ts ~ line 35 ~ content", content)
-    console.log('nickname', nickname);
     if( typeof nickname !== "string" ) return [404, {error: 'Invalid nickname!'}]
     const [status,idChat ,message] = addMessage(id,{nickname, content});
 

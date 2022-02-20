@@ -19,9 +19,9 @@ export const usersController = {
   },
 
   login: (
-    { body: {nickname, password} }: Request<{}, {}, Omit<User, "id">>,res: Response<{accessToken: string} | Error>) => {
-    const [statusToken, token] = generateToken({nickname, password});  
-    res.status(statusToken).json(token);
+    { body: {nickname, password} }: Request<{}, {}, Omit<User, "id">>,res: Response<{accessToken: string, id: string} | Error>) => {
+    const [statusToken, token, id] = generateToken({nickname, password});  
+    res.status(statusToken).json({...token, id: id});
   },
 
 

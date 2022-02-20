@@ -10,7 +10,7 @@ interface UserInterface {
   (): void;
   add(user: Omit<User, "id">): readonly [number, User | Error];
   remove(id: string): readonly [number, User | Error];
-  generateToken(user: Omit<User, "id" | "cover">): readonly [number, {accessToken: string} | Error];
+  generateToken(user: Omit<User, "id" | "cover">): readonly [number, {accessToken: string} | Error, string];
 
   // [key: string]: any; //indexer
 }
@@ -41,9 +41,10 @@ userSelector.remove = (id: string) => {
 
 //  LOGIN
 userSelector.generateToken = ({nickname, password}: Omit<User, "id">) => {
-    if(!users.find(({nickname: nicknameUser, password: passwordUser}) => nicknameUser === nickname && passwordUser === password)){
-      return [400, {error: 'Wrong credentials!'}];
+  const user = users.find(({nickname: nicknameUser, password: passwordUser}) => nicknameUser === nickname && passwordUser === password)
+    if(!user){
+      return [400, {error: 'Wrong credentials!'}, "null"];
     }
-  return [200, {accessToken:  jwt.sign({nickname, password}, typeCryptographyJwt)}];
+  return [200, {accessToken:  jwt.sign({nickname, password}, typeCryptographyJwt)}, user.id];
 };
 

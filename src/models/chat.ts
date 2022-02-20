@@ -1,6 +1,6 @@
 import { Message } from "./match";
 import { User } from "./user";
-export type MessageChat = Record<'nickname' | 'content', string> & {watched: boolean}
+export type MessageChat = Record<'nickname' | 'content', string> & {watched: boolean, date: Date}
 
 
 export interface ChatImport  {
