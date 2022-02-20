@@ -15,6 +15,12 @@ import * as socketio from "socket.io";
 import path from "path";
 import { matchesMock } from "./mocks/matches";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { userSelector } from "./resources/users";
+import { User } from "./models/user";
+import { chatSelector } from "./resources/chats";
+
+
+const { users: usersArray } = userSelector;
 
 
 // let SOCKET_LIST: Record<string, socketio.Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>> = {};
@@ -33,8 +39,41 @@ const io = new socketio.Server(server, {cors: {
  
    io.on('connection',(socket) =>{
      socketConnection = socket;
+     const idSocket = socket.id;
+     let userConnected: User | undefined = undefined;
+  
+      socket.on(`online-user`,(idUser) => {
+
+        let user = usersArray.find(({id}) => id === idUser);
+        if(!user)return;
+        user!.online = true;
+        userConnected = user;
+        
+        const chatsFiltered =  chatSelector.chats.filter(({user1: {id: id_1}, user2:{id:id_2}}) => userConnected!.id === id_1 || userConnected?.id === id_2)
+            .map(({id, user1, user2}) => ({id, user1, user2}));
+          // console.log('asd', chatsFiltered);
+            chatsFiltered.forEach(({id, user1, user2}) => {
+          socket.broadcast.emit(`connection-user-${id}`, {chatId: id,user: userConnected});
+      });
+    });
+    socket.on('disconnect', () => {
+      if(!userConnected) return;
+      userConnected.online = false;
+
+      const chatsFiltered =  chatSelector.chats.filter(({user1: {id: id_1}, user2:{id:id_2}}) => userConnected!.id === id_1 || userConnected?.id === id_2)
+          .map(({id, user1, user2}) => ({id, user1, user2}));
+        // console.log('asd', chatsFiltered);
+          chatsFiltered.forEach(({id, user1, user2}) => {
+        socket.broadcast.emit(`connection-user-${id}`, {chatId: id,user: userConnected});
+
+      })
+
+    })
+
    })
 // app.use(express.static(path.join(__dirname, "public")));
+
+
 
 
 

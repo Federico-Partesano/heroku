@@ -8,7 +8,7 @@ const { users, add, remove, generateToken } = userSelector;
 
 export const usersController = {
   signUp: (
-    { body: {nickname, password, cover} }: Request<{}, {}, Record<"nickname" | "password" | "cover", string>>,res: Response<User | Error>) => {
+    { body: {nickname, password, cover} }: Request<{}, {}, Record<"nickname" | "password" | "cover" | 'online', string>>,res: Response<User | Error>) => {
 
 
     if(users.find(({nickname: nicknameUser}) =>nicknameUser === nickname )){
@@ -19,7 +19,7 @@ export const usersController = {
   },
 
   login: (
-    { body: {nickname, password} }: Request<{}, {}, Omit<User, "id">>,res: Response<{accessToken: string, id: string} | Error>) => {
+    { body: {nickname, password} }: Request<{}, {}, Omit<User, "id" | "online">>,res: Response<{accessToken: string, id: string} | Error>) => {
     const [statusToken, token, id] = generateToken({nickname, password});  
     res.status(statusToken).json({...token, id: id});
   },

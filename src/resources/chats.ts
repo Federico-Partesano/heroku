@@ -24,7 +24,7 @@ const {users} = userSelector;
 //first create function
 const c = function () {};
 export const chatSelector: UserInterface = c as UserInterface; //type assertion on right side
-chatSelector.chats = [];
+chatSelector.chats = chatsMock;
 let { chats } = chatSelector;
 // FUNCTIONS
 
@@ -38,7 +38,7 @@ chatSelector.add = (user: Omit<ChatImport, "id" | "messages">) => {
   const user_1 = users.find(({nickname}) => user1 === nickname);
   const user_2 = users.find(({nickname}) => user2 === nickname);
   if(!user_1 || !user_2) return [404, {error: 'User not found!'}]
-  const newChat: ChatExport = { user1: user_1, user2: user_2, id: uuidv4(), messages: [] };
+  const newChat: ChatExport = { user1: user_1, user2: user_2, id: uuidv4(), messages: [], messagesNotWatched: 0 };
   chats.push(newChat);
   return [200, newChat];
 };

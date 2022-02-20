@@ -8,9 +8,9 @@ import { typeCryptographyJwt } from "../configurations/config";
 interface UserInterface {
   users: User[];
   (): void;
-  add(user: Omit<User, "id">): readonly [number, User | Error];
+  add(user: Omit<User, "id" | "online">): readonly [number, User | Error];
   remove(id: string): readonly [number, User | Error];
-  generateToken(user: Omit<User, "id" | "cover">): readonly [number, {accessToken: string} | Error, string];
+  generateToken(user: Omit<User, "id" | "cover" | "online">): readonly [number, {accessToken: string} | Error, string];
 
   // [key: string]: any; //indexer
 }
@@ -18,7 +18,7 @@ interface UserInterface {
 //first create function
 const c = function () {};
 export const userSelector: UserInterface = c as UserInterface; //type assertion on right side
-userSelector.users = [];
+userSelector.users = usersMock;
 let { users } = userSelector;
 // FUNCTIONS
 

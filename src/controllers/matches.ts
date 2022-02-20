@@ -49,7 +49,6 @@ export const matchController = {
 
   joinMatch: (
     { params: { id }, headers: {nickname} }: Request<{ id: string }>,res: Response<Match | Error>) => {
-      console.log(nickname);
       if(nickname && typeof nickname === "string"){
         const [status, match] = join(id, nickname);
         status < 300 && socketConnection!.emit(`match-join`, match );

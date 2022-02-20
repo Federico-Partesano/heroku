@@ -21,7 +21,7 @@ interface MatchInterface {
 //first create function
 const c = function () {};
 export const matchSelector: MatchInterface = c as MatchInterface; //type assertion on right side
-matchSelector.matches = [];
+matchSelector.matches = matchesMock;
 let { matches } = matchSelector;
 // FUNCTIONS
 

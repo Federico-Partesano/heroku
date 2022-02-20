@@ -4,7 +4,7 @@ const generateMessagesMock = () => [ {
     nickname: usersMock[0].nickname,
     content: 'ciao',
     watched: false,
-    date: new Date()
+    date: new Date(),
 },
 {
     nickname: usersMock[1].nickname,
@@ -43,7 +43,8 @@ export const chatsMock: ChatExport[] = [
         ...generateMessagesMock(),
         ...generateMessagesMock(),
 
-    ]
+    ],
+    messagesNotWatched: 2
 }
 
 ]

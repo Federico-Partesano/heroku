@@ -15,4 +15,5 @@ export interface ChatExport  {
     user1: User, 
     user2: User,
     messages: MessageChat[]
+    messagesNotWatched: number;
 }
