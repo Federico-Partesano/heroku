@@ -24,7 +24,7 @@ const {users} = userSelector;
 //first create function
 const c = function () {};
 export const chatSelector: UserInterface = c as UserInterface; //type assertion on right side
-chatSelector.chats = chatsMock;
+chatSelector.chats = [];
 let { chats } = chatSelector;
 // FUNCTIONS
 

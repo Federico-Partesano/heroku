@@ -18,7 +18,7 @@ interface UserInterface {
 //first create function
 const c = function () {};
 export const userSelector: UserInterface = c as UserInterface; //type assertion on right side
-userSelector.users = usersMock;
+userSelector.users = [];
 let { users } = userSelector;
 // FUNCTIONS
 
