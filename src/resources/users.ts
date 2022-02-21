@@ -41,10 +41,9 @@ userSelector.remove = (id: string) => {
 
 //  LOGIN
 userSelector.generateToken = ({nickname, password}: Omit<User, "id">) => {
-  const user = users.find(({nickname: nicknameUser, password: passwordUser}) => nicknameUser === nickname && passwordUser === password)
-    if(!user){
-      return [400, {error: 'Wrong credentials!'}, "null"];
-    }
+  const user = users.find(({nickname: nicknameUser, password: passwordUser}) => nicknameUser === nickname && passwordUser === password);
+    if(!user)  return [400, {error: 'Wrong credentials!'}, "null"];
+    if(user.online) return [400, {error: "This User already logged!"}, "null"]
     user.online = true;
   return [200, {accessToken:  jwt.sign({nickname, password}, typeCryptographyJwt)}, user.id];
 };
