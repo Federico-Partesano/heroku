@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { socketConnection } from "..";
 import { Error, ObjectReduce } from "../models/types";
 import { User } from "../models/user";
 import { userSelector } from "../resources/users";
@@ -15,6 +16,11 @@ export const usersController = {
       return res.status(400).json({error: 'Nickname already exists!'});
     }
     const [status, user] = add({nickname, password, cover});
+
+
+    (status < 300 && user) &&  socketConnection!.broadcast.emit(`add-new-user`, user );
+    (status < 300 && user) && socketConnection!.emit(`add-new-user`, user );
+
     res.status(status).json(user);
   },
 

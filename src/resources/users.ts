@@ -45,6 +45,7 @@ userSelector.generateToken = ({nickname, password}: Omit<User, "id">) => {
     if(!user){
       return [400, {error: 'Wrong credentials!'}, "null"];
     }
+    user.online = true;
   return [200, {accessToken:  jwt.sign({nickname, password}, typeCryptographyJwt)}, user.id];
 };
 

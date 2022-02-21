@@ -36,16 +36,37 @@ const io = new socketio.Server(server, {cors: {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"]
  }})
- 
+
+ let connections:  any = {}
    io.on('connection',(socket) =>{
+     
      socketConnection = socket;
      const idSocket = socket.id;
      let userConnected: User | undefined = undefined;
+
+     socket.on('logout',(userId: string ) => {
+      let userIndex = usersArray.findIndex(({id}) => id === userId);
+      if(userIndex < 0)return;
+      usersArray[userIndex].online = false;
+      socket.broadcast.emit(`logout`, usersArray[userIndex].id);
+
+     })
+
+     socket.on('con',(userId: string ) => {
+      let userIndex = usersArray.findIndex(({id}) => id === userId);
+      if(userIndex < 0)return;
+      usersArray[userIndex].online = true;
+      socket.broadcast.emit(`con`, usersArray[userIndex].id);
+
+     })
+
   
       socket.on(`online-user`,(idUser) => {
 
         let user = usersArray.find(({id}) => id === idUser);
+        console.log("🚀 ~ file: index.ts ~ line 65 ~ socket.on ~ user", user);
         if(!user)return;
+        connections[socket.id] = user?.id
         user!.online = true;
         userConnected = user;
         
@@ -56,11 +77,19 @@ const io = new socketio.Server(server, {cors: {
           socket.broadcast.emit(`connection-user-${id}`, {chatId: id,user: userConnected});
       });
     });
-    socket.on('disconnect', () => {
-      if(!userConnected) return;
-      userConnected.online = false;
 
-      const chatsFiltered =  chatSelector.chats.filter(({user1: {id: id_1}, user2:{id:id_2}}) => userConnected!.id === id_1 || userConnected?.id === id_2)
+
+    socket.on('disconnect', () => {
+      const userId = connections[socket.id];
+      console.log("🚀 ~ file: index.ts ~ line 84 ~ socket.on ~ userId", userId)
+       let user =  usersArray.find(({id}) => userId === id);
+       if(!user) {
+         console.log('not found');
+         return;
+       }
+       user.online = false;
+       delete connections[socket.id];
+      const chatsFiltered =  chatSelector.chats.filter(({user1: {id: id_1}, user2:{id:id_2}}) => userId === id_1 || userId === id_2)
           .map(({id, user1, user2}) => ({id, user1, user2}));
         // console.log('asd', chatsFiltered);
           chatsFiltered.forEach(({id, user1, user2}) => {
