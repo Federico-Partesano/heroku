@@ -61,7 +61,7 @@ matchSelector.setMove = (id:string,nickname: string,body: SetMove) => {
     const matchIndex = matches.findIndex(({id: idMatch}) =>  id === idMatch);
     if(matchIndex < 0) return [400, {error: 'Match not found!'}]
     // if(Object.keys(body).some(value => value === undefined)) return [400, {error: 'invalid body values'}]
-    if(Object.values(body).some(value => value > 8 && value < 0)) return [400, {error: 'Body values must be less than 8 and greater than 0'}]
+    if(Object.values(body).some(value => value > 8 && value < 0)) return [400, {error: 'Body values must be less than 8 and greater than 0!'}]
     const numberStart =  matches[matchIndex].field[startX][startY];
     const numberFinal =  matches[matchIndex].field[finalX][finalY];
     if(numberStart === 0) return [400, {error: 'Invalid request!'}]
