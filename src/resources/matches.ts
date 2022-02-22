@@ -19,8 +19,8 @@ interface MatchInterface {
 }
 
 //first create function
-const c = function () {};
-export const matchSelector: MatchInterface = c as MatchInterface; //type assertion on right side
+const createInterface = function () {};
+export const matchSelector: MatchInterface = createInterface as MatchInterface; //type assertion on right side
 matchSelector.matches = matchesMock;
 let { matches } = matchSelector;
 // FUNCTIONS

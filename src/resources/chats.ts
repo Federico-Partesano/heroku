@@ -22,8 +22,8 @@ interface UserInterface {
 const {users} = userSelector;
 
 //first create function
-const c = function () {};
-export const chatSelector: UserInterface = c as UserInterface; //type assertion on right side
+const createInterface = function () {};
+export const chatSelector: UserInterface = createInterface as UserInterface; //type assertion on right side
 chatSelector.chats = chatsMock;
 let { chats } = chatSelector;
 // FUNCTIONS

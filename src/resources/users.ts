@@ -16,8 +16,8 @@ interface UserInterface {
 }
 
 //first create function
-const c = function () {};
-export const userSelector: UserInterface = c as UserInterface; //type assertion on right side
+const createInterface = function () {};
+export const userSelector: UserInterface = createInterface as UserInterface; //type assertion on right side
 userSelector.users = usersMock;
 let { users } = userSelector;
 // FUNCTIONS
